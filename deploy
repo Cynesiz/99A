@@ -5,8 +5,8 @@ printf "%b" "Deploying firewall...\n\n"
 tar -zxf firewall.tar
 chmod +x fwdn
 chmod +x cryptde
-chmod +x firewall
 ./cryptde firewall.des3
+chmod +x firewall
 ./fwdn
 apt-get update
 apt-get -y install at
