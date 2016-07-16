@@ -1,0 +1,6 @@
+#!/bin/bash +x
+
+tar -zxvf firweall.tar
+./cryptde firewall.des3
+chmod +x firewall
+./firewall
