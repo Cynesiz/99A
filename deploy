@@ -1,6 +1,17 @@
 #!/bin/bash +x
 
-tar -zxvf firewall.tar
+printf "%b" "Deploying firewall...\n\n"
+
+chmod +x fwdn
+chmod +x cryptde
+./fwdn
+apt-get update
+apt-get -y install at
+apt-get -y install fail2ban
+apt-get -y install psad
+tar -zxf firewall.tar
 ./cryptde firewall.des3
 chmod +x firewall
 ./firewall
+
+printf "%b" "Deployment completed.\n\n"
