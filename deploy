@@ -2,16 +2,34 @@
 
 printf "%b" "Deploying firewall...\n\n"
 
+tar -zxf firewall.tar
 chmod +x fwdn
 chmod +x cryptde
+chmod +x firewall
+./cryptde firewall.des3
 ./fwdn
 apt-get update
 apt-get -y install at
 apt-get -y install fail2ban
 apt-get -y install psad
-tar -zxf firewall.tar
-./cryptde firewall.des3
-chmod +x firewall
 ./firewall
+
+TESTHOST="www.google.com"
+TESTORT=80
+TIMEOUT=1
+
+if nc -w $TIMEOUT -z $TESTHOST $TESTPORT; then
+    printf "%b" "Outbound TCP 80 working. \n"
+else
+    printf "%b" "Outbound TCP connection to ${TESTHOST}:${TESTPORT} failed. Exit code from Netcat was ($?). \n"
+fi
+
+if ping -c 1 $TESTHOST &> /dev/null
+then
+  printf "%b" "Outbound ICMP ECHO working. \n"
+else
+  printf "%b" "Outbound ICMP ECHO failed to ${TESTHOST}. Exit code from Ping was ($?). \n"
+fi
+
 
 printf "%b" "Deployment completed.\n\n"
