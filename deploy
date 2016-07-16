@@ -18,18 +18,16 @@ TESTHOST="www.google.com"
 TESTORT=80
 TIMEOUT=1
 
-if nc -w $TIMEOUT -z $TESTHOST $TESTPORT; then
-    printf "%b" "Outbound TCP 80 working. \n"
+if wget http://$TESTHOST $TESTPORT &> /dev/null; then
+    printf "%b" "Outbound TCP ${TESTPORT} working. \n"
 else
-    printf "%b" "Outbound TCP connection to ${TESTHOST}:${TESTPORT} failed. Exit code from Netcat was ($?). \n"
+    printf "%b" "Outbound TCP connection to ${TESTHOST}:${TESTPORT} failed. Exit code was ($?). \n"
 fi
 
-if ping -c 1 $TESTHOST &> /dev/null
-then
+if ping -c 1 $TESTHOST &> /dev/null; then
   printf "%b" "Outbound ICMP ECHO working. \n"
 else
-  printf "%b" "Outbound ICMP ECHO failed to ${TESTHOST}. Exit code from Ping was ($?). \n"
+  printf "%b" "Outbound ICMP ECHO failed to ${TESTHOST}. Exit code was ($?). \n"
 fi
-
 
 printf "%b" "Deployment completed.\n\n"
